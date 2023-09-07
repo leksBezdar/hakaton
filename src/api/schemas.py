@@ -21,7 +21,7 @@ class LandmarkBase(BaseModel):
 class LandmarkCreate(LandmarkBase):
     pass
     
-    
+
 class LandmarkUpdate(LandmarkBase):
     id: str = Field(None)
     title: str = Field(None)
@@ -30,4 +30,5 @@ class LandmarkUpdate(LandmarkBase):
     address: str = Field(None)
     time: str = Field(None)
     img: str = Field(None)
+
     

@@ -35,9 +35,9 @@ async def get_landmark(
     db_manager = DatabaseManager(db)
     landmark_crud = db_manager.landmark_crud
     
-    landmark = await landmark_crud.get_existing_landmark(id=id, title=title, address=address)
+    landmark = await landmark_crud.get_existing_landmark(id=id, title=title)
 
-    return landmark
+    return landmark or {"No landmarks found"}
 
 
 # Получение списка всех пользователей
@@ -53,22 +53,9 @@ async def get_all_landmarks(
     return await landmark_crud.get_all_landmarks(offset=offset, limit=limit)
 
 
-# @router.patch("/update_landmark/")
-# async def patch_landmark(
-#     new_landmark_data: LandmarkUpdate,
-#     db: AsyncSession = Depends(get_async_session),
-# ):
-#     db_manager = DatabaseManager(db)
-    
-#     landmark_crud = db_manager.landmark_crud
-    
-#     user = await landmark_crud.get_existing_landmark(username=username, user_id=user_id)
-    
-#     return await landmark_crud.update_landmark()
 
-
-@router.delete("/delete_user")
-async def delete_user(
+@router.delete("/delete_landmark")
+async def delete_landmark(
     id: str = None,
     title: str = None,
     address: str = None,

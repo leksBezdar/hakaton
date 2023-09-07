@@ -15,9 +15,9 @@ class Landmark(Base):
     price: Mapped[int] = mapped_column(nullable=False)
     reviews: Mapped = Column(JSON, nullable=False)
     description: Mapped[str] = mapped_column(nullable=False)
-    address: Mapped[str] = mapped_column(nullable=False, unique=True)
+    address: Mapped[str] = mapped_column(nullable=False)
     time: Mapped[str] = mapped_column(nullable=False)
-    img: Mapped[str] = mapped_column(nullable=False, unique=True)
+    img: Mapped[str] = mapped_column(nullable=False)
     
 
     
