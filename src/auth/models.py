@@ -21,7 +21,8 @@ class User(Base):
     is_active: Mapped[bool] = mapped_column(Boolean, nullable=False, default=False)
     is_superuser: Mapped[bool] = mapped_column(Boolean, nullable=False, default=False)
     is_verified: Mapped[bool] = mapped_column(Boolean, nullable=False, default=False)
-    
+    favorite: Mapped[dict] = mapped_column(JSON, nullable=True)
+
 class Refresh_token(Base):
     __tablename__ = 'refresh_tokens'
 

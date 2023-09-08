@@ -216,6 +216,23 @@ class UserCRUD:
                 await self.abort_user_sessions
 
             return user.is_active
+
+
+    async def add_to_favorite(self, landmark_id, request: Request):
+
+        try:
+            access_token = request.cookies.get('access_token')
+            if not access_token:
+                raise exceptions.InactiveUser
+            
+            username = await TokenCrud.get_access_token_payload(access_token)
+            user = await self.get_existing_user(username=username)
+            return user.username
+
+        except KeyError:
+            return {"msg":"smth went wrong"}
+
+
     
     
 class TokenCrud:
