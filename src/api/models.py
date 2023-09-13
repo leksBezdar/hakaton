@@ -18,6 +18,16 @@ class Landmark(Base):
     address: Mapped[str] = mapped_column(nullable=False)
     time: Mapped[str] = mapped_column(nullable=False)
     img: Mapped[str] = mapped_column(nullable=False)
+    coordinates: Mapped[int] = mapped_column(nullable=False)
+    categories: Mapped[str] = mapped_column(nullable=False)
+    type: Mapped[str] = mapped_column(nullable=False)
+    city: Mapped[str] = mapped_column(nullable=False)
     
 
+class Review(base):
+    __tablename__ = "reviews"
+
+    stars: Mapped[float] = mapped_column(nullable=False)
+    title: Mapped[str] = mapped_column(nullable=False, primary_key=True)
+    description: Mapped[str] = mapped_column(nullable=False)
     

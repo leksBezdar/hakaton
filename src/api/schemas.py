@@ -9,13 +9,17 @@ from typing import Dict, Optional
 class LandmarkBase(BaseModel):
     id: str
     title: str
-    rating: int
+    rating: Dict
     price: int
     reviews: Dict
     description: str
     address: str
     time: str
     img: str
+    coordinates: int
+    categories: str
+    type: str
+    city: str
     
     
 class LandmarkCreate(LandmarkBase):

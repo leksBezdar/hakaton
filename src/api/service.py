@@ -8,7 +8,7 @@ from sqlalchemy import or_, update
 from . import exceptions
 
 from ..database import get_async_session
-from .dao import LandmarkDAO
+from .dao import LandmarkDAO, ReviewDAO
 from .models import Landmark
 from .schemas import LandmarkCreate, LandmarkBase
 
@@ -77,6 +77,19 @@ class LandmarkCrud:
             address == Landmark.address))
         
         await self.db.commit()
+
+
+class ReviewCrud:
+
+    def __init__(self, db: AsyncSession):
+        self.db = db
+
+    
+    async def create_review(self, title: str, stars: float, description: str):
+
+        ReviewDAO.add()
+
+
         
     
     

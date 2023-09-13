@@ -51,6 +51,7 @@ class UserCreate(UserBase):
     
 class UserUpdate(UserBase):
     password: Optional[str] = None
+    favoriteList: Optional[Dict] = None
         
 
 class User(UserBase):

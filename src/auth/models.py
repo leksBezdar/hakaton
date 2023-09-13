@@ -14,14 +14,14 @@ class User(Base):
     __tablename__ = "users"
 
     id: Mapped[str] = mapped_column(primary_key=True, index=True)
-    user_set_id: Mapped[str] = mapped_column(nullable=True, unique=True)
     email: Mapped[str] = mapped_column(nullable=False, unique=True)
     username: Mapped[str] = mapped_column(nullable=False, unique=True)
     hashed_password: Mapped[str] = mapped_column(nullable=False)
     is_active: Mapped[bool] = mapped_column(Boolean, nullable=False, default=False)
     is_superuser: Mapped[bool] = mapped_column(Boolean, nullable=False, default=False)
     is_verified: Mapped[bool] = mapped_column(Boolean, nullable=False, default=False)
-    favorite: Mapped[dict] = mapped_column(JSON, nullable=True)
+    published_landmarks: Mapped[str] = mapped_column(String, index=True)
+    favorite_landmarks: Mapped[str] = mapped_column(String, index=True)
 
 class Refresh_token(Base):
     __tablename__ = 'refresh_tokens'
