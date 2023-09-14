@@ -21,7 +21,6 @@ class Landmark(Base):
     coordinates: Mapped[int] = mapped_column(nullable=False)
     categories: Mapped[str] = mapped_column(nullable=False)
     type: Mapped[str] = mapped_column(nullable=False)
-    city: Mapped[str] = mapped_column(nullable=False)
     
 
 class Review(Base):
@@ -31,3 +30,22 @@ class Review(Base):
     title: Mapped[str] = mapped_column(nullable=False, primary_key=True)
     description: Mapped[str] = mapped_column(nullable=False)
     
+
+class PublishedLandmark(Base):
+    __tablename__ = "published_landmarks"
+
+    id = mapped_column(primary_key=True, index=True)
+    user_id = mapped_column(ForeignKey("users.id"))
+    landmark_id = mapped_column(ForeignKey("landmarks.id"))
+
+    user = relationship("User", back_populates="published_landmarks")
+
+class FavoriteLandmark(Base):
+    __tablename__ = "favorite_landmarks"
+
+    id = mapped_column(primary_key=True, index=True)
+    user_id = mapped_column(ForeignKey("users.id"))
+    landmark_id = mapped_column(ForeignKey("landmarks.id"))
+
+    user = relationship("User", back_populates="favorite_landmarks")
+

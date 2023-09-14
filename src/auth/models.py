@@ -20,8 +20,9 @@ class User(Base):
     is_active: Mapped[bool] = mapped_column(Boolean, nullable=False, default=False)
     is_superuser: Mapped[bool] = mapped_column(Boolean, nullable=False, default=False)
     is_verified: Mapped[bool] = mapped_column(Boolean, nullable=False, default=False)
-    published_landmarks: Mapped[str] = mapped_column(String, index=True)
-    favorite_landmarks: Mapped[str] = mapped_column(String, index=True)
+    
+    published_landmarks = relationship("PublishedLandmark", back_populates="user")
+    favorite_landmarks = relationship("FavoriteLandmark", back_populates="user")
 
 class Refresh_token(Base):
     __tablename__ = 'refresh_tokens'
