@@ -24,7 +24,7 @@ class Landmark(Base):
     city: Mapped[str] = mapped_column(nullable=False)
     
 
-class Review(base):
+class Review(Base):
     __tablename__ = "reviews"
 
     stars: Mapped[float] = mapped_column(nullable=False)

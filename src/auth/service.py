@@ -1,5 +1,5 @@
 import uuid
-import jwt
+from jose import jwt
 
 from typing import Optional
 from uuid import uuid4

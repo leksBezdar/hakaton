@@ -91,20 +91,6 @@ async def logout(
     return response
 
 
-@router.get("/me", response_model=schemas.User)
-async def get_current_user(
-    db: AsyncSession = Depends(get_async_session),
-    current_user: User = Depends(get_current_active_user)
-) -> Optional[User]:
-    
-    db_manager = DatabaseManager(db)
-    user_crud = db_manager.user_crud
-    
-    user = await user_crud.get_existing_user(username = current_user.username)
-    
-    return user
-
-
 # Получение информации о пользователе по имени пользователя
 @router.get("/read_user", response_model=None)
 async def get_user(

@@ -2,6 +2,7 @@ from fastapi import FastAPI
 from fastapi.responses import HTMLResponse
 from src.api.routers import router as api_router
 from src.auth.routers import router as auth_router
+from src.profile.routers import router as profile_router
 from fastapi.middleware.cors import CORSMiddleware
 
 app = FastAPI(
@@ -10,6 +11,7 @@ app = FastAPI(
 
 app.include_router(api_router, tags=["API"])
 app.include_router(auth_router, tags=["AUTH"])
+app.include_router(profile_router, tags=["PROFILE"])
 
 origins = [
     "http://localhost",
