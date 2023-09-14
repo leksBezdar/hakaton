@@ -24,6 +24,8 @@ class UserCreate(UserBase):
     email: EmailStr
     username: str
     password: str
+    published_landmarks: str
+    favorite_landmarks: str
     
         
     @field_validator("username")
@@ -51,15 +53,20 @@ class UserCreate(UserBase):
     
 class UserUpdate(UserBase):
     password: Optional[str] = None
-    favoriteList: Optional[Dict] = None
+    published_landmarks: Optional[str] = None
+    favorite_landmarks: Optional[str] = None
         
 
 class User(UserBase):
     id: str
+    published_landmarks: str
+    favorite_landmarks: str
     
 class UserCreateDB(UserBase):
     id: str
     hashed_password: Optional[str] = None
+    published_landmarks: Optional[str] = None
+    favorite_landmarks: Optional[str] = None
    
     
     

@@ -30,6 +30,8 @@ def upgrade() -> None:
         sa.Column('is_active', sa.Boolean(), nullable=False, server_default=sa.text('true')),
         sa.Column('is_superuser', sa.Boolean(), nullable=False, server_default=sa.text('false')),
         sa.Column('is_verified', sa.Boolean(), nullable=False, server_default=sa.text('false')),
+        sa.Column('published_landmarks', sa.String(), nullable=True),
+        sa.Column('favorite_landmarks', sa.String(), nullable=True),
         sa.PrimaryKeyConstraint('id'),
     )
 
