@@ -1,51 +1,44 @@
-from sqlalchemy import Column, JSON
-from sqlalchemy.orm import relationship, Mapped, mapped_column
+from sqlalchemy import Column, JSON, ForeignKey, Integer, String, Float
+from sqlalchemy.orm import relationship
 from ..database import Base
-from sqlalchemy import MetaData
-
-metadata = MetaData()
-
 
 class Landmark(Base):
     __tablename__ = "landmarks"
     
-    id: Mapped[str] = mapped_column(primary_key=True, index=True)
-    title: Mapped[str] = mapped_column(nullable=False, unique=True)
-    rating: Mapped[int] = mapped_column(nullable=False)
-    price: Mapped[int] = mapped_column(nullable=False)
-    reviews: Mapped = Column(JSON, nullable=False)
-    description: Mapped[str] = mapped_column(nullable=False)
-    address: Mapped[str] = mapped_column(nullable=False)
-    time: Mapped[str] = mapped_column(nullable=False)
-    img: Mapped[str] = mapped_column(nullable=False)
-    coordinates: Mapped[int] = mapped_column(nullable=False)
-    categories: Mapped[str] = mapped_column(nullable=False)
-    type: Mapped[str] = mapped_column(nullable=False)
-    
+    id = Column(String, primary_key=True, index=True)
+    title = Column(String, nullable=False, unique=True)
+    rating = Column(Integer, nullable=False)
+    price = Column(Integer, nullable=False)
+    reviews = Column(JSON, nullable=False)
+    description = Column(String, nullable=False)
+    address = Column(String, nullable=False)
+    time = Column(String, nullable=False)
+    img = Column(String, nullable=False)
+    coordinates = Column(Integer, nullable=False)
+    categories = Column(String, nullable=False)
+    type = Column(String, nullable=False)
 
 class Review(Base):
     __tablename__ = "reviews"
 
-    stars: Mapped[float] = mapped_column(nullable=False)
-    title: Mapped[str] = mapped_column(nullable=False, primary_key=True)
-    description: Mapped[str] = mapped_column(nullable=False)
-    
+    stars = Column(Float, nullable=False)
+    title = Column(String, nullable=False, primary_key=True)
+    description = Column(String, nullable=False)
 
 class PublishedLandmark(Base):
     __tablename__ = "published_landmarks"
 
-    id = mapped_column(primary_key=True, index=True)
-    user_id = mapped_column(ForeignKey("users.id"))
-    landmark_id = mapped_column(ForeignKey("landmarks.id"))
+    id = Column(Integer, primary_key=True, index=True)
+    user_id = Column(Integer, ForeignKey("users.id"))
+    landmark_id = Column(String, ForeignKey("landmarks.id"))
 
     user = relationship("User", back_populates="published_landmarks")
 
 class FavoriteLandmark(Base):
     __tablename__ = "favorite_landmarks"
 
-    id = mapped_column(primary_key=True, index=True)
-    user_id = mapped_column(ForeignKey("users.id"))
-    landmark_id = mapped_column(ForeignKey("landmarks.id"))
+    id = Column(Integer, primary_key=True, index=True)
+    user_id = Column(Integer, ForeignKey("users.id"))
+    landmark_id = Column(String, ForeignKey("landmarks.id"))
 
     user = relationship("User", back_populates="favorite_landmarks")
-
