@@ -57,8 +57,8 @@ class UserUpdate(UserBase):
 
 class User(UserBase):
     id: str
-    published_landmarks: str
-    favorite_landmarks: str
+    # published_landmarks: str
+    # favorite_landmarks: str
     
 class UserCreateDB(UserBase):
     id: str
