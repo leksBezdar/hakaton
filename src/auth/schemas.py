@@ -24,8 +24,6 @@ class UserCreate(UserBase):
     email: EmailStr
     username: str
     password: str
-    published_landmarks: str
-    favorite_landmarks: str
     
         
     @field_validator("username")
