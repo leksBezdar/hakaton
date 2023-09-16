@@ -15,13 +15,17 @@ router = APIRouter()
 @router.get("/get_user_by_token", response_model=schemas.User)
 async def get_user_by_token(
     request: Request,
+    token: str = None, 
     db: AsyncSession = Depends(get_async_session),
 ) -> Optional[User]:
     
     db_manager = DatabaseManager(db)
     user_crud = db_manager.user_crud
     
-    user = await user_crud.get_user_by_token(request.cookies.get('refresh_token'))
+    if not token: 
+        user = await user_crud.get_user_by_token(request.cookies.get('refresh_token'))
+    else: 
+        user = await user_crud.get_user_by_token(token)
     
     return user
 

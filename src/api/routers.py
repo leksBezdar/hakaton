@@ -23,6 +23,14 @@ async def create_landmark(
     return await landmark_crud.create_landmark(request=request, landmark=landmark_data)
 
 
+@router.post("/create_landmark/", response_model=Landmark)
+async def get_landmark(
+    landmark_data: str,
+    db: AsyncSession = Depends(get_async_session),
+) -> Landmark:
+    db_manager = DatabaseManager(db)
+
+
 # Получение списка всех пользователей
 @router.get("/read_all_landmarks")
 async def get_all_landmarks(
