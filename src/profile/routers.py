@@ -12,16 +12,16 @@ from .dao import *
 
 router = APIRouter()
 
-@router.get("/me", response_model=schemas.User)
-async def get_current_user(
+@router.get("/get_user_by_token", response_model=schemas.User)
+async def get_user_by_token(
+    request: Request,
     db: AsyncSession = Depends(get_async_session),
-    current_user: User = Depends(get_current_active_user)
 ) -> Optional[User]:
     
     db_manager = DatabaseManager(db)
     user_crud = db_manager.user_crud
     
-    user = await user_crud.get_existing_user(username = current_user.username)
+    user = await user_crud.get_user_by_token(request.cookies.get('refresh_token'))
     
     return user
 
@@ -38,7 +38,6 @@ async def get_published_landmarks(
     db: AsyncSession = Depends(get_async_session),
     current_user: User = Depends(get_current_user),
     ):
-
     return current_user.published_landmarks
 
 

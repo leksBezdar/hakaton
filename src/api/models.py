@@ -7,7 +7,7 @@ class Landmark(Base):
     
     id = Column(String, primary_key=True, index=True)
     title = Column(String, nullable=False, unique=True)
-    rating = Column(Integer, nullable=False)
+    rating = Column(Float, nullable=False)
     price = Column(Integer, nullable=False)
     reviews = Column(JSON, nullable=False)
     description = Column(String, nullable=False)
@@ -25,20 +25,20 @@ class Review(Base):
     title = Column(String, nullable=False, primary_key=True)
     description = Column(String, nullable=False)
 
-class PublishedLandmark(Base):
-    __tablename__ = "published_landmarks"
+# class PublishedLandmark(Base):
+#     __tablename__ = "published_landmarks"
 
-    id = Column(Integer, primary_key=True, index=True)
-    user_id = Column(Integer, ForeignKey("users.id"))
-    landmark_id = Column(String, ForeignKey("landmarks.id"))
+#     id = Column(Integer, primary_key=True, index=True)
+#     user_id = Column(Integer, ForeignKey("users.id"))
+#     landmark_id = Column(String, ForeignKey("landmarks.id"))
 
-    user = relationship("User", back_populates="published_landmarks")
+#     user = relationship("User", back_populates="published_landmarks")
 
-class FavoriteLandmark(Base):
-    __tablename__ = "favorite_landmarks"
+# class FavoriteLandmark(Base):
+#     __tablename__ = "favorite_landmarks"
 
-    id = Column(Integer, primary_key=True, index=True)
-    user_id = Column(Integer, ForeignKey("users.id"))
-    landmark_id = Column(String, ForeignKey("landmarks.id"))
+#     id = Column(Integer, primary_key=True, index=True)
+#     user_id = Column(Integer, ForeignKey("users.id"))
+#     landmark_id = Column(String, ForeignKey("landmarks.id"))
 
-    user = relationship("User", back_populates="favorite_landmarks")
+#     user = relationship("User", back_populates="favorite_landmarks")

@@ -3,7 +3,7 @@ from uuid import UUID
 import uuid
 
 from pydantic import BaseModel, EmailStr, Field, field_validator
-from typing import Dict, Optional
+from typing import Dict, List, Optional
 
 from .config import (
     MIN_USERNAME_LENGTH as user_min_len,
@@ -24,6 +24,8 @@ class UserCreate(UserBase):
     email: EmailStr
     username: str
     password: str
+    published_landmarks: Optional[List[str]] = None
+    favorite_landmarks: Optional[List[str]] = None
     
         
     @field_validator("username")
@@ -51,14 +53,14 @@ class UserCreate(UserBase):
     
 class UserUpdate(UserBase):
     password: Optional[str] = None
-    published_landmarks: Optional[str] = None
-    favorite_landmarks: Optional[str] = None
+    published_landmarks: Optional[List[str]] = None
+    favorite_landmarks: Optional[List[str]] = None
         
 
 class User(UserBase):
     id: str
-    # published_landmarks: str
-    # favorite_landmarks: str
+    published_landmarks: Optional[List[str]] = None
+    favorite_landmarks: Optional[List[str]] = None
     
 class UserCreateDB(UserBase):
     id: str

@@ -6,7 +6,7 @@ from sqlalchemy.orm import Mapped
 from sqlalchemy.orm import mapped_column
 from sqlalchemy.orm import relationship
 from sqlalchemy.sql import func
-from sqlalchemy import Integer, Boolean, ForeignKey, JSON, String
+from sqlalchemy import ARRAY, Column, Integer, Boolean, ForeignKey, JSON, String
 
 from ..database import Base
 
@@ -21,8 +21,8 @@ class User(Base):
     is_superuser: Mapped[bool] = mapped_column(Boolean, nullable=False, default=False)
     is_verified: Mapped[bool] = mapped_column(Boolean, nullable=False, default=False)
     
-    published_landmarks = relationship("PublishedLandmark", back_populates="user")
-    favorite_landmarks = relationship("FavoriteLandmark", back_populates="user")
+    published_landmarks = Column(ARRAY(String), nullable=True)
+    favorite_landmarks = Column(ARRAY(String), nullable=True)
 
 class Refresh_token(Base):
     __tablename__ = 'refresh_tokens'

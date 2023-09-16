@@ -1,16 +1,23 @@
 from typing import Optional
+from uuid import uuid4
 
 from fastapi import Depends, Request
 from sqlalchemy.ext.asyncio import AsyncSession
 from sqlalchemy.future import select
 from sqlalchemy import or_, update
+from src.auth.dao import UserDAO
+from ..auth.dependencies import get_current_user
+
+from src.auth.models import User
+
+from ..auth.service import DatabaseManager as AuthDatabaseManager
 
 from . import exceptions
 
 from ..database import get_async_session
 from .dao import LandmarkDAO, ReviewDAO
 from .models import Landmark
-from .schemas import LandmarkCreate, LandmarkBase
+from .schemas import LandmarkCreate, LandmarkBase, LandmarkCreateDB
 
 
 class LandmarkCrud:
@@ -19,21 +26,20 @@ class LandmarkCrud:
         self.db = db
         
     
-    async def create_landmark(self, landmark: LandmarkCreate) -> Landmark:
+    async def create_landmark(self, landmark: LandmarkCreate, request: Request) -> Landmark:
         
-        landmark_exists = await self.get_existing_landmark(
-            landmark.id, landmark.title)
-        
-        if landmark_exists:
-            raise exceptions.LandmarkAlreadyExists
+        id = str(uuid4())
+                 
+        await self.add_to_published(request=request, landmark_data=id)
         
         db_landmark = await LandmarkDAO.add(
             self.db,
-            LandmarkCreate(
+            LandmarkCreateDB(
             **landmark.model_dump(),
+            id=id
             )
         )
-
+        
         self.db.add(db_landmark)
         await self.db.commit()
         await self.db.refresh(db_landmark)
@@ -59,6 +65,55 @@ class LandmarkCrud:
             ))
         
         return landmark
+    
+    async def add_to_favorite(self, landmark_data: str, request: Request):
+        
+        db_manager = AuthDatabaseManager(self.db)
+        token_crud = db_manager.token_crud
+        user_crud = db_manager.user_crud
+        
+        token = request.cookies.get('access_token').split()[1]
+        user_id = await token_crud.get_access_token_payload(access_token=token)
+        
+        user = await user_crud.get_existing_user(user_id=user_id)
+        
+        favorite_landmarks = user.favorite_landmarks or []
+    
+        favorite_landmarks.append(landmark_data)
+        
+        user_update_data = {"favorite_landmarks": favorite_landmarks}
+        user_update = await UserDAO.update(self.db, User.id == user_id, obj_in=user_update_data)
+        
+        self.db.add(user_update)
+        await self.db.commit()
+        await self.db.refresh(user_update)
+        
+        return {"Add to favorite successfull"}
+        
+        
+    async def add_to_published(self, landmark_data: str, request: Request):
+        
+        db_manager = AuthDatabaseManager(self.db)
+        token_crud = db_manager.token_crud
+        user_crud = db_manager.user_crud
+        
+        token = request.cookies.get('access_token').split()[1]
+        user_id = await token_crud.get_access_token_payload(access_token=token)
+        
+        user = await user_crud.get_existing_user(user_id=user_id)
+        
+        published_landmarks = user.published_landmarks or []
+        
+        published_landmarks.append(landmark_data)
+        
+        user_update_data = {"published_landmarks": published_landmarks}
+        user_update = await UserDAO.update(self.db, User.id == user_id, obj_in=user_update_data)
+        
+        self.db.add(user_update)
+        await self.db.commit()
+        await self.db.refresh(user_update)
+        
+        return user
 
     
     async def delete_landmark(self, id: str = None, title: str = None, address: str = None) -> None:

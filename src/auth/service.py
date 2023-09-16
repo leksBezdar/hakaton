@@ -110,6 +110,13 @@ class UserCRUD:
         
         return user
     
+    async def get_user_by_token(self, token:str) -> User:
+        
+        refresh_session = await RefreshTokenDAO.find_one_or_none(self.db, Refresh_token.refresh_token == token)
+        user = await self.get_existing_user(user_id=refresh_session.user_id)
+        
+        return user
+    
     # Обновление статуса 'is_active' пользователя
     async def update_user_statement(self, new_is_active: str, username: str = None, user_id: str = None):
         

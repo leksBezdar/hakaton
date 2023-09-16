@@ -7,9 +7,8 @@ from typing import Dict, Optional
 
 
 class LandmarkBase(BaseModel):
-    id: str
     title: str
-    rating: Dict
+    rating: float
     price: int
     reviews: Dict
     description: str
@@ -19,13 +18,14 @@ class LandmarkBase(BaseModel):
     coordinates: int
     categories: str
     type: str
-    city: str
     
     
 class LandmarkCreate(LandmarkBase):
     pass
-    
 
+class LandmarkCreateDB(LandmarkBase):
+    id: str
+    
 class LandmarkUpdate(LandmarkBase):
     id: str = Field(None)
     title: str = Field(None)
@@ -34,5 +34,17 @@ class LandmarkUpdate(LandmarkBase):
     address: str = Field(None)
     time: str = Field(None)
     img: str = Field(None)
+    
+
+class Landmark(LandmarkCreateDB):
+    pass
+
+
+class FavoriteLandmarkCreate(BaseModel):
+    id: str
+    user_id: str
+    landmark_id: str
+    
+
 
     
