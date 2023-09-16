@@ -9,7 +9,6 @@ class Landmark(Base):
     title = Column(String, nullable=False, unique=True)
     rating = Column(Float, nullable=False)
     price = Column(Integer, nullable=False)
-    reviews = Column(JSON, nullable=False)
     description = Column(String, nullable=False)
     address = Column(String, nullable=False)
     time = Column(String, nullable=False)

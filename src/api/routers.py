@@ -4,7 +4,7 @@ from sqlalchemy.ext.asyncio import AsyncSession
 
 from .dao import LandmarkDAO
 from .service import DatabaseManager
-from .schemas import LandmarkCreate, LandmarkBase, Landmark
+from .schemas import LandmarkCreate, LandmarkBase, Landmark, LandmarkId
 from ..database import get_async_session
 
 
@@ -23,12 +23,15 @@ async def create_landmark(
     return await landmark_crud.create_landmark(request=request, landmark=landmark_data)
 
 
-@router.post("/create_landmark/", response_model=Landmark)
+@router.post("/get_landmark/", response_model=Landmark)
 async def get_landmark(
-    landmark_data: str,
+    landmark_data: LandmarkId,
     db: AsyncSession = Depends(get_async_session),
 ) -> Landmark:
     db_manager = DatabaseManager(db)
+    landmark_crud = db_manager.landmark_crud
+    
+    return await landmark_crud.get_existing_landmark(id=landmark_data)
 
 
 # Получение списка всех пользователей
@@ -64,7 +67,7 @@ async def delete_landmark(
 @router.get("/add_to_favorite")
 async def add_to_favorite(
     request: Request,
-    landmark_id: str,
+    landmark_id: LandmarkId,
     db: AsyncSession = Depends(get_async_session),
 ):
       

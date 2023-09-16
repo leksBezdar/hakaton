@@ -67,6 +67,11 @@ class UserCreateDB(UserBase):
     hashed_password: Optional[str] = None
     published_landmarks: Optional[str] = None
     favorite_landmarks: Optional[str] = None
+    
+    
+class UserLogin(BaseModel):
+    username: str
+    password:str
    
     
     
@@ -83,3 +88,7 @@ class Token(BaseModel):
     access_token: str
     refresh_token: str
     token_type: str
+    
+    
+class TokenEnd(BaseModel):
+    token: str

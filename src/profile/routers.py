@@ -15,7 +15,7 @@ router = APIRouter()
 @router.get("/get_user_by_token", response_model=schemas.User)
 async def get_user_by_token(
     request: Request,
-    token: str = None, 
+    token: schemas.TokenEnd, 
     db: AsyncSession = Depends(get_async_session),
 ) -> Optional[User]:
     

@@ -36,8 +36,7 @@ async def create_user(
 async def login(
     request: Request,
     response: Response,
-    username: str,
-    password: str,
+    credentials: schemas.UserLogin,
     db: AsyncSession = Depends(get_async_session),
 ):
     
@@ -45,7 +44,7 @@ async def login(
     user_crud = db_manager.user_crud
     token_crud = db_manager.token_crud
 
-    user = await user_crud.authenticate_user(username=username, password=password)
+    user = await user_crud.authenticate_user(username=credentials.username, password=credentials.password)
     
     await user_crud.get_user_statement(username = user.username, request=request)
     

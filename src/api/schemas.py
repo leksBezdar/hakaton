@@ -10,7 +10,6 @@ class LandmarkBase(BaseModel):
     title: str
     rating: float
     price: int
-    reviews: Dict
     description: str
     address: str
     time: str
@@ -44,6 +43,10 @@ class FavoriteLandmarkCreate(BaseModel):
     id: str
     user_id: str
     landmark_id: str
+    
+    
+class LandmarkId(BaseModel):
+    id: str
     
 
 
