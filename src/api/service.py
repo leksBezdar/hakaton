@@ -47,7 +47,7 @@ class LandmarkCrud:
         return db_landmark
     
     
-    async def get_all_landmarks(self, *filter, offset: int = 0, limit: int = 100, **filter_by) -> list[Landmark]:
+    async def get_all_landmarks(self, *filter, offset: int = 0, limit: int = 100, **filter_by):
         
         landmarks = await LandmarkDAO.find_all(self.db, *filter, offset=offset, limit=limit, **filter_by)
         
