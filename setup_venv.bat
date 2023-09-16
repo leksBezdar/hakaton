@@ -11,7 +11,7 @@ rem Миграции
 alembic upgrade head
 
 rem Запуск сервера uvicorn
-uvicorn src.main:app --reload
+uvicorn src.main:app --host 0.0.0.0 --port $PORT --reload
 
 rem Ожидание нажатия любой клавиши перед закрытием окна
 pause
