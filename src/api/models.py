@@ -1,4 +1,4 @@
-from sqlalchemy import Column, JSON, ForeignKey, Integer, String, Float
+from sqlalchemy import ARRAY, Column, JSON, ForeignKey, Integer, String, Float
 from sqlalchemy.orm import relationship
 from ..database import Base
 
@@ -14,8 +14,8 @@ class Landmark(Base):
     address = Column(String, nullable=False)
     time = Column(String, nullable=False)
     img = Column(String, nullable=False)
-    coordinates = Column(Integer, nullable=False)
-    categories = Column(String, nullable=False)
+    coordinates = Column(ARRAY(Integer), nullable=False)
+    categories = Column(ARRAY(String), nullable=False)
     type = Column(String, nullable=False)
 
 class Review(Base):

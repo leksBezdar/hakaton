@@ -1,3 +1,4 @@
+from ast import List
 import re
 from uuid import UUID
 import uuid
@@ -15,8 +16,8 @@ class LandmarkBase(BaseModel):
     address: str
     time: str
     img: str
-    coordinates: int
-    categories: str
+    coordinates: List[int]
+    categories: List[str]
     type: str
     
     
