@@ -142,7 +142,7 @@ class UserCRUD:
     
     
     # Получение списка всех пользователей с поддержкой пагинации
-    async def get_all_users(self, *filter, offset: int = 0, limit: int = 100, **filter_by) -> list[User]:
+    async def get_all_users(self, *filter, offset: int = 0, limit: int = 100, **filter_by):
         
         users = await UserDAO.find_all(self.db, *filter, offset=offset, limit=limit, **filter_by)
         
