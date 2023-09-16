@@ -91,4 +91,4 @@ class Token(BaseModel):
     
     
 class TokenEnd(BaseModel):
-    token: str
+    token: str = Field(None)

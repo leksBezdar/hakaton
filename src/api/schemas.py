@@ -14,7 +14,7 @@ class LandmarkBase(BaseModel):
     address: str
     time: str
     img: str
-    coordinates: List[int]
+    coordinates: List[float]
     categories: List[str]
     type: str
     

@@ -59,10 +59,7 @@ class LandmarkCrud:
         if not id and not title: 
             raise exceptions.NoCredentials
         
-        landmark = await LandmarkDAO.find_one_or_none(self.db, or_(
-            Landmark.id == id,
-            Landmark.title == title
-            ))
+        landmark = await LandmarkDAO.find_one_or_none(self.db,Landmark.id == id)
         
         return landmark
     
@@ -88,7 +85,7 @@ class LandmarkCrud:
         await self.db.commit()
         await self.db.refresh(user_update)
         
-        return {"Add to favorite successfull"}
+        return {"Message":"Add to favorite successfull"}
         
         
     async def add_to_published(self, landmark_data: str, request: Request):

@@ -31,7 +31,7 @@ async def get_landmark(
     db_manager = DatabaseManager(db)
     landmark_crud = db_manager.landmark_crud
     
-    return await landmark_crud.get_existing_landmark(id=landmark_data)
+    return await landmark_crud.get_existing_landmark(id=landmark_data.id)
 
 
 # Получение списка всех пользователей
@@ -64,7 +64,7 @@ async def delete_landmark(
     return {"message": "Deleting successful"}
 
 
-@router.get("/add_to_favorite")
+@router.post("/add_to_favorite")
 async def add_to_favorite(
     request: Request,
     landmark_id: LandmarkId,
@@ -74,4 +74,6 @@ async def add_to_favorite(
     db_manager = DatabaseManager(db)
     landmark_crud = db_manager.landmark_crud
     
-    return await landmark_crud.add_to_favorite(request=request, landmark_data=landmark_id)
+    print(landmark_id)
+    
+    return await landmark_crud.add_to_favorite(request=request, landmark_data=landmark_id.id)

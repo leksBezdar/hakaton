@@ -43,7 +43,7 @@ def upgrade() -> None:
         sa.Column('rating', sa.Float(), nullable=False),
         sa.Column('price', sa.Integer(), nullable=False),
         sa.Column('description', sa.String(), nullable=False),
-        sa.Column('coordinates',sa.ARRAY(sa.Integer()), nullable=False),
+        sa.Column('coordinates',sa.ARRAY(sa.Float()), nullable=False),
         sa.Column('categories', sa.ARRAY(sa.String()), nullable=False),
         sa.Column('address', sa.String(), nullable=False),
         sa.Column('type', sa.String(), nullable=False),

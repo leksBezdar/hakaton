@@ -12,10 +12,10 @@ from .dao import *
 
 router = APIRouter()
 
-@router.get("/get_user_by_token", response_model=schemas.User)
+@router.post("/get_user_by_token", response_model=schemas.User)
 async def get_user_by_token(
     request: Request,
-    token: schemas.TokenEnd, 
+    token: schemas.TokenEnd = None, 
     db: AsyncSession = Depends(get_async_session),
 ) -> Optional[User]:
     
@@ -25,7 +25,7 @@ async def get_user_by_token(
     if not token: 
         user = await user_crud.get_user_by_token(request.cookies.get('refresh_token'))
     else: 
-        user = await user_crud.get_user_by_token(token)
+        user = await user_crud.get_user_by_token(token.token)
     
     return user
 
@@ -34,6 +34,8 @@ async def get_favorite_landmarks(
     db: AsyncSession = Depends(get_async_session),
     current_user: User = Depends(get_current_user),
     ):
+
+
 
     return current_user.favorite_landmarks
 

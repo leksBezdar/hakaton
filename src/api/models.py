@@ -13,7 +13,7 @@ class Landmark(Base):
     address = Column(String, nullable=False)
     time = Column(String, nullable=False)
     img = Column(String, nullable=False)
-    coordinates = Column(ARRAY(Integer), nullable=False)
+    coordinates = Column(ARRAY(Float), nullable=False)
     categories = Column(ARRAY(String), nullable=False)
     type = Column(String, nullable=False)
 
