@@ -2,7 +2,7 @@ import re
 from uuid import UUID
 import uuid
 
-from pydantic import BaseModel, EmailStr, Field, field_validator, validator
+from pydantic import BaseModel, EmailStr, Field, validator
 from typing import Dict, List, Optional
 
 from .config import (
