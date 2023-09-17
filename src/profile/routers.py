@@ -23,10 +23,9 @@ async def get_user_by_token(
     user_crud = db_manager.user_crud
     
     if not token: 
-        user = await user_crud.get_user_by_token(request.cookies.get('refresh_token'))
+        return await user_crud.get_user_by_token(request.cookies.get('refresh_token'))
     else: 
-    
-        return user
+        return await user_crud.get_user_by_token(token.token) 
 
 @router.get("/favorite_landmarks")
 async def get_favorite_landmarks(
