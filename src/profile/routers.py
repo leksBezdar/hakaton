@@ -25,9 +25,8 @@ async def get_user_by_token(
     if not token: 
         user = await user_crud.get_user_by_token(request.cookies.get('refresh_token'))
     else: 
-        user = await user_crud.get_user_by_token(token.token)
     
-    return user
+        return user
 
 @router.get("/favorite_landmarks")
 async def get_favorite_landmarks(
@@ -44,8 +43,6 @@ async def get_published_landmarks(
     current_user: User = Depends(get_current_user),  
     db: AsyncSession = Depends(get_async_session),
     ):
-
-    current_user: User = await get_current_user(request=request, token=token),
 
     return current_user.published_landmarks
 
