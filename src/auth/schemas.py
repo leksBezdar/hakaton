@@ -35,22 +35,6 @@ class UserCreate(UserBase):
         
         return value
     
-    @validator("password")
-    def validate_password_complexity(cls, value):
-        if len(value) < int(pass_min_len) or len(value) > int(pass_max_len):
-            raise ValueError("Password must be between 8 and 30 characters")
-        
-        if not re.search(r"\d", value):
-            raise ValueError("Password must contain at least one digit")
-        
-        if not re.search(r"[A-Z]", value):
-            raise ValueError("Password must contain at least one uppercase letter")
-        
-        if not re.search(r"[!@#$%^&*(),.?\":{}|<>_-]", value):
-            raise ValueError("Password must contain at least one special character")
-        
-        return value
-    
 class UserUpdate(UserBase):
     password: Optional[str] = None
     published_landmarks: Optional[List[str]] = None
