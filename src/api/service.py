@@ -59,8 +59,12 @@ class LandmarkCrud:
         if not id and not title: 
             raise exceptions.NoCredentials
         
-        landmark = await LandmarkDAO.find_one_or_none(self.db,Landmark.id == id)
+        print(title)
         
+        landmark = await LandmarkDAO.find_one_or_none(self.db,Landmark.id == id)
+        if not landmark:
+            await LandmarkDAO.find_one_or_none(self.db,Landmark.title == title)
+               
         return landmark
     
     async def add_to_favorite(self, landmark_data: str, request: Request, token: str,):
