@@ -74,6 +74,18 @@ async def add_to_favorite(
     db_manager = DatabaseManager(db)
     landmark_crud = db_manager.landmark_crud
     
-    print(landmark_id)
-    
     return await landmark_crud.add_to_favorite(request=request, landmark_data=landmark_id.id)
+
+
+@router.post("/remove_from_favorite")
+async def remove_from_favorite(
+    request: Request,
+    landmark_id: LandmarkId,
+    db: AsyncSession = Depends(get_async_session),
+):
+      
+    db_manager = DatabaseManager(db)
+    landmark_crud = db_manager.landmark_crud
+    
+    return await landmark_crud.remove_from_favorite(request=request, landmark_data=landmark_id.id)
+

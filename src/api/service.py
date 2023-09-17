@@ -75,17 +75,53 @@ class LandmarkCrud:
         user = await user_crud.get_existing_user(user_id=user_id)
         
         favorite_landmarks = user.favorite_landmarks or []
+
+        if landmark_data not in favorite_landmarks:
+            favorite_landmarks.append(landmark_data)
+
+            user_update_data = {"favorite_landmarks": favorite_landmarks}
+            user_update = await UserDAO.update(self.db, User.id == user_id, obj_in=user_update_data)
+
+            self.db.add(user_update)
+            await self.db.commit()
+            await self.db.refresh(user_update)
+
+            return {"Message":"Add to favorite successfull"}
+        else:
+            return{"Message":"The landmark is already your favorite"}
     
-        favorite_landmarks.append(landmark_data)
+    
+    async def remove_from_favorite(self, landmark_data: str, request: Request):
         
-        user_update_data = {"favorite_landmarks": favorite_landmarks}
-        user_update = await UserDAO.update(self.db, User.id == user_id, obj_in=user_update_data)
+        db_manager = AuthDatabaseManager(self.db)
+        token_crud = db_manager.token_crud
+        user_crud = db_manager.user_crud
         
-        self.db.add(user_update)
-        await self.db.commit()
-        await self.db.refresh(user_update)
+        token = request.cookies.get('access_token').split()[1]
+        user_id = await token_crud.get_access_token_payload(access_token=token)
         
-        return {"Message":"Add to favorite successfull"}
+        user = await user_crud.get_existing_user(user_id=user_id)
+        
+        favorite_landmarks = user.favorite_landmarks or []
+    
+        if landmark_data in favorite_landmarks:
+            favorite_landmarks.remove(landmark_data)  # Удаляем `landmark_data`
+
+            user_update_data = {"favorite_landmarks": favorite_landmarks}
+            user_update = await UserDAO.update(self.db, User.id == user_id, obj_in=user_update_data)
+
+            self.db.add(user_update)
+            await self.db.commit()
+            await self.db.refresh(user_update)
+
+            return {"Message": "Remove from favorite successful"}
+        else:
+            return {"Message": "Landmark not found in favorites"}
+
+
+
+
+
         
         
     async def add_to_published(self, landmark_data: str, request: Request):
