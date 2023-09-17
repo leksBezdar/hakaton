@@ -12,6 +12,7 @@ from .service import DatabaseManager
 
 async def get_current_user(
         request: Request,
+        token: str,
         db: AsyncSession = Depends(get_async_session),
 ):
     
@@ -20,7 +21,7 @@ async def get_current_user(
     token_crud = db_manager.token_crud
     
     try:
-        token = request.cookies.get('access_token').split()[1]
+        token = token.split()[1]
         user_id = await token_crud.get_access_token_payload(token)
 
     except KeyError:

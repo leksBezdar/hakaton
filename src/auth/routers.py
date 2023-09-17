@@ -72,14 +72,14 @@ async def login(
 async def logout(
     request: Request,
     response: Response,
+    refresh_token: str,
     db: AsyncSession = Depends(get_async_session),
-    active_user=Depends(get_current_active_user)
 ):
    
     db_manager = DatabaseManager(db)
     user_crud = db_manager.user_crud
     
-    await user_crud.logout(refresh_token=request.cookies.get('refresh_token'))
+    await user_crud.logout(refresh_token=refresh_token)
     
     response = JSONResponse(content={
         "message": "logout successful",
@@ -98,7 +98,6 @@ async def get_user(
     email: str = None,
     user_id: str = None,
     db: AsyncSession = Depends(get_async_session),
-    current_user: User = Depends(get_current_active_user),
 ) -> Optional[User]:
 
     db_manager = DatabaseManager(db)
@@ -126,13 +125,14 @@ async def get_all_users(
 async def refresh_token(
     request: Request,
     response: Response,
+    refresh_token: str,
     db: AsyncSession = Depends(get_async_session),
 ):
     
     db_manager = DatabaseManager(db)
     token_crud = db_manager.token_crud
     
-    new_token = await token_crud.refresh_token(request.cookies.get("refresh_token"))
+    new_token = await token_crud.refresh_token(refresh_token)
 
     response.set_cookie(
         'access_token',

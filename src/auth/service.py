@@ -110,9 +110,9 @@ class UserCRUD:
         
         return user
     
-    async def get_user_by_token(self, token:str) -> User:
+    async def get_user_by_token(self, refresh_token:str) -> User:
         
-        refresh_session = await RefreshTokenDAO.find_one_or_none(self.db, Refresh_token.refresh_token == token)
+        refresh_session = await RefreshTokenDAO.find_one_or_none(self.db, Refresh_token.refresh_token == refresh_token)
         user = await self.get_existing_user(user_id=refresh_session.user_id)
         
         return user
@@ -307,6 +307,7 @@ class TokenCrud:
                              algorithms=[ALGORITHM])
             user_id = payload.get("sub")
             return user_id
+        
 
         except jwt.ExpiredSignatureError:
             raise exceptions.TokenExpired

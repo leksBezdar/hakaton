@@ -15,12 +15,14 @@ router = APIRouter()
 async def create_landmark(
     request: Request,
     landmark_data: LandmarkCreate,
+    token: str,
     db: AsyncSession = Depends(get_async_session),
 ) -> Landmark:
     db_manager = DatabaseManager(db)
     landmark_crud = db_manager.landmark_crud
     
-    return await landmark_crud.create_landmark(request=request, landmark=landmark_data)
+    if token: 
+        return await landmark_crud.create_landmark(token=token, request=request, landmark=landmark_data)
 
 
 @router.post("/get_landmark/", response_model=Landmark)
@@ -68,24 +70,26 @@ async def delete_landmark(
 async def add_to_favorite(
     request: Request,
     landmark_id: LandmarkId,
+    token: str,
     db: AsyncSession = Depends(get_async_session),
 ):
       
     db_manager = DatabaseManager(db)
     landmark_crud = db_manager.landmark_crud
     
-    return await landmark_crud.add_to_favorite(request=request, landmark_data=landmark_id.id)
+    return await landmark_crud.add_to_favorite(token=token, request=request, landmark_data=landmark_id.id)
 
 
 @router.post("/remove_from_favorite")
 async def remove_from_favorite(
     request: Request,
     landmark_id: LandmarkId,
+    token: str,
     db: AsyncSession = Depends(get_async_session),
 ):
       
     db_manager = DatabaseManager(db)
     landmark_crud = db_manager.landmark_crud
     
-    return await landmark_crud.remove_from_favorite(request=request, landmark_data=landmark_id.id)
+    return await landmark_crud.remove_from_favorite(token=token, request=request, landmark_data=landmark_id.id)
 

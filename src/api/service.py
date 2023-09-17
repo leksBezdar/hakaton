@@ -26,11 +26,11 @@ class LandmarkCrud:
         self.db = db
         
     
-    async def create_landmark(self, landmark: LandmarkCreate, request: Request) -> Landmark:
+    async def create_landmark(self, landmark: LandmarkCreate, request: Request, token: str) -> Landmark:
         
         id = str(uuid4())
                  
-        await self.add_to_published(request=request, landmark_data=id)
+        await self.add_to_published(token=token, request=request, landmark_data=id)
         
         db_landmark = await LandmarkDAO.add(
             self.db,
@@ -63,13 +63,13 @@ class LandmarkCrud:
         
         return landmark
     
-    async def add_to_favorite(self, landmark_data: str, request: Request):
+    async def add_to_favorite(self, landmark_data: str, request: Request, token: str,):
         
         db_manager = AuthDatabaseManager(self.db)
         token_crud = db_manager.token_crud
         user_crud = db_manager.user_crud
         
-        token = request.cookies.get('access_token').split()[1]
+        token = token.split()[1]
         user_id = await token_crud.get_access_token_payload(access_token=token)
         
         user = await user_crud.get_existing_user(user_id=user_id)
@@ -91,13 +91,13 @@ class LandmarkCrud:
             return{"Message":"The landmark is already your favorite"}
     
     
-    async def remove_from_favorite(self, landmark_data: str, request: Request):
+    async def remove_from_favorite(self, landmark_data: str, request: Request, token: str):
         
         db_manager = AuthDatabaseManager(self.db)
         token_crud = db_manager.token_crud
         user_crud = db_manager.user_crud
         
-        token = request.cookies.get('access_token').split()[1]
+        token = token.split()[1]
         user_id = await token_crud.get_access_token_payload(access_token=token)
         
         user = await user_crud.get_existing_user(user_id=user_id)
@@ -105,7 +105,7 @@ class LandmarkCrud:
         favorite_landmarks = user.favorite_landmarks or []
     
         if landmark_data in favorite_landmarks:
-            favorite_landmarks.remove(landmark_data)  # Удаляем `landmark_data`
+            favorite_landmarks.remove(landmark_data)
 
             user_update_data = {"favorite_landmarks": favorite_landmarks}
             user_update = await UserDAO.update(self.db, User.id == user_id, obj_in=user_update_data)
@@ -124,13 +124,13 @@ class LandmarkCrud:
 
         
         
-    async def add_to_published(self, landmark_data: str, request: Request):
+    async def add_to_published(self, landmark_data: str, request: Request, token: str):
         
         db_manager = AuthDatabaseManager(self.db)
         token_crud = db_manager.token_crud
         user_crud = db_manager.user_crud
         
-        token = request.cookies.get('access_token').split()[1]
+        token = token.split()[1]
         user_id = await token_crud.get_access_token_payload(access_token=token)
         
         user = await user_crud.get_existing_user(user_id=user_id)

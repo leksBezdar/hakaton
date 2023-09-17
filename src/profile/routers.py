@@ -31,19 +31,22 @@ async def get_user_by_token(
 
 @router.get("/favorite_landmarks")
 async def get_favorite_landmarks(
+    request: Request,
     db: AsyncSession = Depends(get_async_session),
     current_user: User = Depends(get_current_user),
     ):
-
-
 
     return current_user.favorite_landmarks
 
 @router.get("/published_landmarks")
 async def get_published_landmarks(
+    request: Request,
+    current_user: User = Depends(get_current_user),  
     db: AsyncSession = Depends(get_async_session),
-    current_user: User = Depends(get_current_user),
     ):
+
+    current_user: User = await get_current_user(request=request, token=token),
+
     return current_user.published_landmarks
 
 
